@@ -2,6 +2,7 @@
 
 import {PerspectiveCamera, Scene, WebGLRenderer} from "./build/three.module.js";
 import SolarSystem from "./solarSystem.js";
+import {VRButton} from "./build/webxr/VRButton.js";
 
 export default class App {
 
@@ -34,14 +35,18 @@ export default class App {
 
         this.SolarSystem = new SolarSystem(this.scene);
 
-        this.render();
+
+        document.body.append(VRButton.createButton(this.renderer));
+        this.renderer.xr.enabled = true;
+        this.renderer.setAnimationLoop(this.render.bind(this));
+        //this.render();
 
     }
 
     render() {
         this.SolarSystem.animate();
         this.renderer.render(this.scene, this.camera);
-        window.requestAnimationFrame(this.render.bind(this));
+        //window.requestAnimationFrame(this.render.bind(this));
 
     }
 
